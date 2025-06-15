@@ -365,10 +365,8 @@ iamsarim/                           # Project root
 ├── 📁 scripts/                    # Build scripts
 ├── gatsby-config.js               # Gatsby configuration
 ├── gatsby-node.js                 # Gatsby Node APIs
-├── netlify.toml                   # Netlify deployment configuration
 ├── package.json                   # Project dependencies
 ├── prettier.config.js             # Code formatting config
-├── DEPLOYMENT.md                  # Deployment guide for 5 platforms
 └── README.md                      # Project documentation
 ```
 
