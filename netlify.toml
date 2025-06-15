@@ -70,7 +70,7 @@
 
 # Headers for images
 [[headers]]
-  for = "/*.jpg"
+  for = "/*.png"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 

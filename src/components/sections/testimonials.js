@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import { srConfig } from '@config';
 import sr from '@utils/sr';
 import { usePrefersReducedMotion } from '@hooks';
-import DrUsamaImage from '@images/dr-usama.jpg';
-import AbdulWasayImage from '@images/AbdulWasay.jpeg.jpg';
-import UsmanImage from '@images/usman.jpg';
-import NoumanImage from '@images/nouman.jpg';
+import DrUsamaImage from '@images/dr-usama.png';
+import AbdulWasayImage from '@images/AbdulWasay.png';
+import UsmanImage from '@images/usman.png';
+import NoumanImage from '@images/nouman.png';
 
 const StyledTestimonialsSection = styled.section`
   max-width: 1000px;
