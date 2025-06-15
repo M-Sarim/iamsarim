@@ -70,7 +70,6 @@ I'm **Muhammad Sarim**, a passionate Software Engineering student at FAST NUCES 
 - **📧 Contact Form**: Interactive modal with Formspree integration
 - **🎨 Dynamic Themes**: 5-color theme system with real-time switching
 - **💾 Theme Persistence**: User's color preference saved in localStorage
-- **🚀 Netlify Optimized**: Custom netlify.toml with security headers and performance optimization
 - **🔒 Security Headers**: XSS protection, content-type options, and frame protection
 - **🔄 Smart Redirects**: SPA routing support and 404 handling
 
@@ -88,7 +87,7 @@ I'm **Muhammad Sarim**, a passionate Software Engineering student at FAST NUCES 
 - **Styling**: CSS-in-JS, Custom Design System, Dynamic Theme System
 - **Animation**: ScrollReveal, CSS Transitions, Smooth Scroll
 - **Build**: Webpack, Babel, PostCSS
-- **Deployment**: Netlify with netlify.toml configuration and continuous deployment
+- **Deployment**: Vercel configuration and continuous deployment
 - **Performance**: Image optimization, code splitting, lazy loading, CDN caching
 - **Security**: Custom security headers, XSS protection, content-type validation
 - **Features**: Multi-theme color palette, responsive design, PWA ready, form handling
@@ -96,7 +95,7 @@ I'm **Muhammad Sarim**, a passionate Software Engineering student at FAST NUCES 
 ## 🛠️ **Installation & Setup**
 
 ### **Prerequisites**
-- **Node.js** (v14.0.0 or higher)
+- **Node.js** (v16.0.0 or higher)
 - **npm** or **yarn** package manager
 - **Git** for version control
 
@@ -172,9 +171,46 @@ npm run develop
 - Ensure images are in correct folders
 - Run `npm run clean` to rebuild image processing
 
-## 🚀 **Deployment**
+## 🚀 **Deployment on Vercel**
 
-### **Production Build**
+### **Automatic Deployment**
+
+1. **Connect to Vercel**
+   - Push your code to GitHub
+   - Visit [vercel.com](https://vercel.com) and sign up/login
+   - Click "New Project" and import your GitHub repository
+   - Vercel automatically detects Gatsby and configures build settings
+
+2. **Build Configuration**
+   - **Framework Preset**: Gatsby
+   - **Build Command**: `npm run build` (auto-detected)
+   - **Output Directory**: `public` (auto-detected)
+   - **Node.js Version**: 18.x (recommended)
+
+3. **Environment Variables** (if needed)
+   ```bash
+   # In Vercel dashboard → Project Settings → Environment Variables
+   GATSBY_FORMSPREE_ID=your_formspree_id
+   GATSBY_GOOGLE_ANALYTICS_ID=your_ga_id
+   ```
+
+### **Manual Deployment with Vercel CLI**
+
+```bash
+# Install Vercel CLI globally
+npm install -g vercel
+
+# Login to Vercel
+vercel login
+
+# Deploy to production
+vercel --prod
+
+# Deploy preview (optional)
+vercel
+```
+
+### **Production Build & Preview**
 ```bash
 # Generate optimized production build
 npm run build
@@ -183,34 +219,71 @@ npm run build
 npm run serve
 ```
 
-### **Deployment Options**
+### **Vercel Configuration**
 
-#### **Netlify (Recommended)**
-1. Connect your GitHub repository to Netlify
-2. Configuration is handled by `netlify.toml` file (included)
-3. Automatic deployments with security headers and performance optimization
-4. Deploy automatically on every push to main branch
+Create a `vercel.json` file in your project root for advanced configuration:
 
-#### **Vercel**
-```bash
-# Install Vercel CLI
-npm i -g vercel
-
-# Deploy
-vercel --prod
+```json
+{
+  "framework": "gatsby",
+  "buildCommand": "npm run build",
+  "outputDirectory": "public",
+  "functions": {
+    "app/api/**/*.js": {
+      "runtime": "nodejs18.x"
+    }
+  },
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/resume",
+      "destination": "/resume.pdf",
+      "permanent": false
+    }
+  ]
+}
 ```
 
-#### **GitHub Pages**
-```bash
-# Install gh-pages
-npm install --save-dev gh-pages
+### **Custom Domain Setup**
 
-# Add to package.json scripts
-"deploy": "gatsby build && gh-pages -d public"
+1. **In Vercel Dashboard**:
+   - Go to Project Settings → Domains
+   - Add your custom domain (e.g., `muhammadsarim.com`)
+   - Follow DNS configuration instructions
 
-# Deploy
-npm run deploy
-```
+2. **DNS Configuration**:
+   ```
+   Type: CNAME
+   Name: @
+   Value: your-project.vercel.app
+   ```
+
+### **Performance Optimization**
+
+Vercel automatically provides:
+- **Global CDN**: Content served from 100+ edge locations worldwide
+- **Automatic Compression**: Gzip and Brotli compression
+- **HTTP/2 Support**: Multiplexed connections for faster loading
+- **Smart Caching**: Optimized cache headers for static assets
+- **Image Optimization**: Next-gen formats (WebP, AVIF) served automatically
 
 ## 🎨 **Design System**
 
@@ -264,16 +337,6 @@ The portfolio features a sophisticated theme system with 5 carefully crafted col
 - **Comprehensive Coverage**: Affects buttons, links, icons, and accents
 - **Hover Feedback**: Palette icon shows current theme color on hover
 
-## 🚀 **Featured Project: Aurora Voyages**
-
-### **🌟 Project Highlight**
-**Aurora Voyages** is the main featured project showcasing full-stack development expertise:
-
-- **🎯 Purpose**: Comprehensive travel booking platform
-- **🛠️ Tech Stack**: React, Node.js, Express, MongoDB, Stripe API, JWT, Material-UI, Cloudinary
-- **✨ Features**: User authentication, destination browsing, secure payments, booking management
-- **🔗 Links**: [Live Demo](https://aurora-voyages.netlify.app) • [GitHub Repository](https://github.com/M-Sarim/aurora-voyages)
-
 ### **📊 Project Portfolio**
 The portfolio showcases **15+ comprehensive projects** including:
 - **Featured Projects**: Aurora Voyages (travel platform), Smart Trash Routing System (AI-powered waste management), Multiplayer Chess Game (real-time gaming)
@@ -289,7 +352,7 @@ The portfolio showcases **15+ comprehensive projects** including:
 - **Static Site Generation**: Pre-built pages for instant loading
 - **Image Optimization**: Automatic WebP/AVIF conversion with lazy loading
 - **Code Splitting**: Optimized bundle sizes with dynamic imports
-- **CDN Deployment**: Global content delivery via Netlify
+- **CDN Deployment**: Global content delivery via Vercel Edge Network
 
 ### **📱 Progressive Web App (PWA)**
 - **Offline Support**: Service worker for offline functionality
@@ -336,11 +399,12 @@ iamsarim/                           # Project root
 │   ├── 📁 fonts/                  # Custom fonts (Calibre, SF Mono)
 │   ├── 📁 hooks/                  # Custom React hooks
 │   ├── 📁 images/                 # Image assets
+│   │   ├── AbdulWasay.png         # Aiesec testimonial
 │   │   ├── logo.png               # Site logo
-│   │   ├── me.jpg                 # Profile picture
-│   │   ├── dr-usama.jpg           # Testimonial photos
-│   │   ├── nouman.jpg             # Peer testimonial
-│   │   ├── usman.jpg              # Peer testimonial
+│   │   ├── me.png                 # Profile picture
+│   │   ├── dr-usama.png           # Testimonial photos
+│   │   ├── nouman.png             # Peer testimonial
+│   │   ├── usman.png              # Peer testimonial
 │   │   └── palette-icon.svg       # Theme toggle icon
 │   ├── 📁 pages/                  # Gatsby pages
 │   │   ├── 📁 pensieve/           # Blog section
@@ -362,7 +426,7 @@ iamsarim/                           # Project root
 │   ├── og.png                     # Open Graph image
 │   ├── resume.pdf                 # Downloadable resume
 │   └── site.webmanifest           # Web app manifest
-├── 📁 scripts/                    # Build scripts
+├── vercel.json                    # Vercel deployment configuration
 ├── gatsby-config.js               # Gatsby configuration
 ├── gatsby-node.js                 # Gatsby Node APIs
 ├── package.json                   # Project dependencies
@@ -378,6 +442,7 @@ iamsarim/                           # Project root
 - **`/src/images/`** - Optimized images and testimonial photos (cleaned of unused assets)
 - **`/static/`** - Files served directly without processing (favicons, PDFs, etc.)
 - **`/src/styles/`** - Styled-components theme system with dynamic color switching
+- **`vercel.json`** - Vercel-specific configuration for deployment and optimization
 
 ## 🎨 **Customization Guide**
 
@@ -435,18 +500,17 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 ## 🙏 **Acknowledgments**
 
-- **Design Inspiration**: [Brittany Chiang](https://brittanychiang.com) for the original design concept
 - **Gatsby Community**: For the amazing static site generator and ecosystem
 - **React Team**: For the powerful UI library and development experience
 - **Styled Components**: For the excellent CSS-in-JS solution
-- **Netlify**: For seamless deployment and hosting
+- **Vercel**: For seamless deployment, hosting, and edge network performance
 - **Open Source Community**: For the countless tools, libraries, and inspiration
 - **FAST NUCES**: For the educational foundation and peer collaboration
 
 ## 📞 **Connect With Me**
 
 <p align="center">
-  <a href="https://muhammadsarim.com" target="_blank">
+  <a href="https://muhammadsarim.vercel.app/" target="_blank">
     <img src="https://img.shields.io/badge/Portfolio-muhammadsarim.com-blue?style=for-the-badge&logo=google-chrome&logoColor=white" alt="Portfolio" />
   </a>
   <a href="https://github.com/M-Sarim" target="_blank">
@@ -477,12 +541,18 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 - **Best Practices**: ESLint, Prettier, and code quality standards
 - **Accessibility**: WCAG compliant with proper semantic HTML
 - **SEO Optimized**: Comprehensive meta tags and structured data
-- **Production Ready**: Deployed and battle-tested
+- **Production Ready**: Deployed and battle-tested on Vercel's edge network
+
+### **🚀 Vercel-Optimized Deployment**
+- **Edge Network**: Global CDN with 100+ locations for lightning-fast loading
+- **Automatic Builds**: Continuous deployment from GitHub with zero configuration
+- **Performance Monitoring**: Built-in analytics and Core Web Vitals tracking
+- **Custom Domains**: Easy SSL certificate management and domain configuration
+- **Preview Deployments**: Every pull request gets its own preview URL
 
 ---
 
 <p align="center">
-  <strong>Built with ❤️ by Muhammad Sarim</strong><br>
-  <em>Passionate about AI/ML, Full-Stack Development, and creating impactful solutions</em><br><br>
-  <strong>⭐ Star this repository if you found it helpful!</strong>
+  <strong>Designed & Built by Muhammad Sarim</strong><br>
+  <em>Deployed with ❤️ on Vercel</em>
 </p>
