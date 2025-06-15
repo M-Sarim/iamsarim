@@ -13,7 +13,7 @@
 <p align="center">
   Built with <a href="https://www.gatsbyjs.org/" target="_blank">Gatsby</a> •
   Styled with <a href="https://styled-components.com/" target="_blank">Styled Components</a> •
-  Deployed on <a href="https://www.vercel.com/" target="_blank">Netlify</a> •
+  Deployed on <a href="https://www.vercel.com/" target="_blank">Vercel</a> •
   <strong>5 Dynamic Themes</strong>
 </p>
 
